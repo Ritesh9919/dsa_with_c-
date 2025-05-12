@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include <climits>
 using namespace std;
 
@@ -112,17 +113,85 @@ void reverseArr(int arr[], int size)
     }
 }
 
+void printSubArray(int arr[], int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = i; j < n; j++)
+        {
+            for (int k = i; k <= j; k++)
+            {
+                cout << arr[k];
+            }
+            cout << " ";
+        }
+        cout << endl;
+    }
+}
+
+int maxSubArraySum(int arr[], int n)
+{
+    int maxSum = INT_MIN;
+    for (int i = 0; i < n; i++)
+    {
+        int currSum = 0;
+        for (int j = i; j < n; j++)
+        {
+            currSum += arr[j];
+            maxSum = max(currSum, maxSum);
+        }
+    }
+    return maxSum;
+}
+
+vector<int> pairSum1(vector<int> arr, int target)
+{
+    vector<int> ans;
+    for (int i = 0; i < arr.size(); i++)
+    {
+        for (int j = i + 1; j < arr.size(); j++)
+        {
+            if (arr[i] + arr[j] == target)
+            {
+                ans.push_back(i);
+                ans.push_back(j);
+            }
+        }
+    }
+    return ans;
+}
+
+vector<int> pairSum2(vector<int> arr, int target)
+{
+    vector<int> ans;
+    int start = 0;
+    int end = arr.size() - 1;
+
+    while (start < end)
+    {
+        int sum = arr[start] + arr[end];
+        if (sum < target)
+        {
+            start++;
+        }
+        else if (sum > target)
+        {
+            end--;
+        }
+        else
+        {
+            ans.push_back(start);
+            ans.push_back(end);
+        }
+    }
+    return ans;
+}
+
 int main()
 {
-    int arr1[] = {1, 2, 3, 5};
-    // int arr2[] = {1, 2, 3, 4, 2};
-    // printInterSectionOfTwoArray(arr1, arr2, 4, 5);
-    // printUniqueNumInArray(arr1, 6);
-    swapMinAndMaxNumberOfArray(arr1, 4);
-    for (int i = 0; i < 4; i++)
-    {
-        cout << arr1[i] << " ";
-    }
+    int arr[] = {3, -4, 5, 4, -1, 7, -8};
+    // printSubArray(arr, 7);
+    cout << maxSubArraySum(arr, 7);
 
     return 0;
 }
